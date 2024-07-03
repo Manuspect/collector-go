@@ -12,6 +12,8 @@ github.com/gofiber/fiber/v2 v2.52.5 h1:tWoP1MJQjGEe4GB5TUGOi7P2E0ZMMRx5ZTG4rT+yG
 github.com/gofiber/fiber/v2 v2.52.5/go.mod h1:KEOE+cXMhXG0zHc9d8+E38hoX+ZN7bhOtgeF2oT6jrQ=
 github.com/gofiber/storage/minio v0.2.2 h1:v2xIffhnJ7+ZjLIpLYt/vtSycM60505BMHb8xtU/WnU=
 github.com/gofiber/storage/minio v0.2.2/go.mod h1:uj8UcKv/Te6fFj1kdeWi9D1qLl4AvuZblGxE/v3o6X4=
+github.com/gofiber/storage/minio v0.2.3 h1:8XT8ElBH8YeulBnDGnBYgL69yu3sB3noYg4aDPsMh6U=
+github.com/gofiber/storage/minio v0.2.3/go.mod h1:h0QfZ9LDHnmYW4rl3peGTd+Xqbe2S2hP6OMncy8K414=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=

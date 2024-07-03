@@ -5,7 +5,7 @@ go 1.21.5
 require (
 	github.com/goccy/go-json v0.10.3
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/gofiber/storage/minio v0.2.2
+	github.com/gofiber/storage/minio v0.2.3
 	github.com/joho/godotenv v1.5.1
 	github.com/minio/minio-go/v7 v7.0.73
 	github.com/nats-io/nats.go v1.36.0
