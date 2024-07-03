@@ -55,6 +55,7 @@ vendors: ## Run go mod vendor
 .PHONY: up
 up: ## Run docker compose up -d
 	mkdir -p -m 777 ./_data/pgadmin
+	mkdir -p -m 777 ./_data/minio
 	docker compose -f docker-compose.local.yml down && docker compose -f docker-compose.local.yml up -d
 
 .PHONY: down
