@@ -1,0 +1,448 @@
+basePath: /api_v1/
+definitions:
+  entities.ServerError:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  entities.ServerOk:
+    properties:
+      message:
+        type: string
+    type: object
+  entities.User:
+    properties:
+      create_date:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_deleted:
+        type: boolean
+      job_title:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      update_date:
+        type: string
+    type: object
+  entities.UserDeleteSwagger:
+    properties:
+      id:
+        type: string
+    type: object
+  entities.UserEmail:
+    properties:
+      email:
+        type: string
+    type: object
+  entities.UserLoginSwagger:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  entities.UserPasswordOldNewSwagger:
+    properties:
+      password_new:
+        type: string
+      password_old:
+        type: string
+    type: object
+  entities.UserPasswordSwagger:
+    properties:
+      password:
+        type: string
+    type: object
+  entities.UserPasswordToken:
+    properties:
+      password:
+        type: string
+      token:
+        type: string
+    type: object
+  entities.UserRegistrationSwagger:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      full_name:
+        type: string
+      job_title:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+    type: object
+  entities.UserUpdateSwagger:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      full_name:
+        type: string
+      job_title:
+        type: string
+      last_name:
+        type: string
+    type: object
+  service.Tokens:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API server for Collector Application
+  title: Collector
+  version: Version 1.0
+paths:
+  /change_password:
+    patch:
+      consumes:
+      - application/json
+      description: Change password user
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: '{password: a-zA-Z0-9_ ,''~!@#$%^&*()?-+={}<>|:;[]} (doble quotes
+          also included)'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserPasswordSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ServerOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Change password user
+      tags:
+      - Users
+  /change_password_old:
+    patch:
+      consumes:
+      - application/json
+      description: Change password user by old password
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: '{password: a-zA-Z0-9_ ,''~!@#$%^&*()?-+={}<>|:;[]} (doble quotes
+          also included)'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserPasswordOldNewSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ServerOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Change password user by old password
+      tags:
+      - Users
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Check email and password user.
+      parameters:
+      - description: '{email: example@gmail.com, password: a-zA-Z0-9_ ,''~!@#$%^&*()?-+={}<>|:;[]}
+          (doble quotes also included)'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserLoginSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/service.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Login user by email and queries password, if ok return access and refresh
+        tokens
+      tags:
+      - Users
+  /registration:
+    post:
+      consumes:
+      - application/json
+      description: Create user
+      parameters:
+      - description: '{first_name: Сергей,last_name: Николаевич, email: name@gmail.com,
+          password: a-zA-Z0-9_ ,''~!@#$%^&*()?-+={}<>|:;[]} (doble quotes also included)'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserRegistrationSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Create user
+      tags:
+      - Users
+  /user:
+    delete:
+      consumes:
+      - application/json
+      description: Logical delete user
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: '{id: uuid.UUID}'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserDeleteSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Logical delete user
+      tags:
+      - Users
+    patch:
+      consumes:
+      - application/json
+      description: Change user properties
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: '{first_name: Сергей,last_name: Николаевич, full_name:Попов,email:
+          name@gmail.com, job_title: manager }'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserUpdateSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Change user properties
+      tags:
+      - Users
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get exist user
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'user_id: uuid'
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Get exist user
+      tags:
+      - Users
+  /user/change_pass:
+    patch:
+      consumes:
+      - application/json
+      description: Get token, new password. Get user_id from redis. Update hash password.
+      parameters:
+      - description: '{password: a-zA-Z0-9_ ,''~!@#$%^&*()?-+={}<>|:;[] (doble quotes
+          also included), token:...}'
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserPasswordToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ServerOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Update password
+      tags:
+      - Users
+  /user/new_pass:
+    post:
+      consumes:
+      - application/json
+      description: Check email user, get id, send link to email user, set id to redis
+      parameters:
+      - description: 'email: name@gmail.com'
+        in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ServerOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Check email user
+      tags:
+      - Users
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all exists users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.User'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Get all exists users
+      tags:
+      - Users
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
