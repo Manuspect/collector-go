@@ -17,13 +17,14 @@ type Querier interface {
 	EditPassword(ctx context.Context, arg EditPasswordParams) error
 	GetRefreshTokensDb(ctx context.Context) ([]Token, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
+	GetUserByIdDb(ctx context.Context, id uuid.UUID) (User, error)
 	GetUserIdByEmail(ctx context.Context, email string) (uuid.UUID, error)
 	GetUsersDb(ctx context.Context) ([]GetUsersDbRow, error)
 	IsCreatedRefreshTokenDb(ctx context.Context, userID uuid.UUID) (string, error)
 	SaveRefreshToken(ctx context.Context, arg SaveRefreshTokenParams) (Token, error)
 	UpdateRefreshTokenDb(ctx context.Context, arg UpdateRefreshTokenDbParams) error
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (UpdateUserRow, error)
-	UserByIdDb(ctx context.Context, id uuid.UUID) (User, error)
+	UserByIdDb(ctx context.Context, id uuid.UUID) (UserByIdDbRow, error)
 }
 
 var _ Querier = (*Queries)(nil)

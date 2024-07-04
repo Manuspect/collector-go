@@ -351,7 +351,7 @@ func EditPasswordUserByOld(pg *databasesqlc.Queries) func(c *fiber.Ctx) error {
 			)
 		}
 
-		db_user, err := pg.UserByIdDb(context.Background(), user.Id)
+		db_user, err := pg.GetUserByIdDb(context.Background(), user.Id)
 		if err != nil {
 			logFi.Error("EditPasswordUserByOld")
 			return c.Status(500).JSON(

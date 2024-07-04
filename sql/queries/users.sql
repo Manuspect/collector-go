@@ -40,13 +40,25 @@ WHERE email = $1;
 SELECT id
 FROM users
 WHERE email = $1;
--- name: UserByIdDb :one
+-- name: GetUserByIdDb :one
 SELECT id,
     first_name,
     last_name,
     full_name,
     email,
     password,
+    job_title,
+    is_deleted,
+    create_date,
+    update_date
+FROM users
+WHERE id = $1;
+-- name: UserByIdDb :one
+SELECT id,
+    first_name,
+    last_name,
+    full_name,
+    email,
     job_title,
     is_deleted,
     create_date,

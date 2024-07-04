@@ -179,6 +179,39 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 	return i, err
 }
 
+const getUserByIdDb = `-- name: GetUserByIdDb :one
+SELECT id,
+    first_name,
+    last_name,
+    full_name,
+    email,
+    password,
+    job_title,
+    is_deleted,
+    create_date,
+    update_date
+FROM users
+WHERE id = $1
+`
+
+func (q *Queries) GetUserByIdDb(ctx context.Context, id uuid.UUID) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByIdDb, id)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.FirstName,
+		&i.LastName,
+		&i.FullName,
+		&i.Email,
+		&i.Password,
+		&i.JobTitle,
+		&i.IsDeleted,
+		&i.CreateDate,
+		&i.UpdateDate,
+	)
+	return i, err
+}
+
 const getUserIdByEmail = `-- name: GetUserIdByEmail :one
 SELECT id
 FROM users
@@ -318,7 +351,6 @@ SELECT id,
     last_name,
     full_name,
     email,
-    password,
     job_title,
     is_deleted,
     create_date,
@@ -327,16 +359,27 @@ FROM users
 WHERE id = $1
 `
 
-func (q *Queries) UserByIdDb(ctx context.Context, id uuid.UUID) (User, error) {
+type UserByIdDbRow struct {
+	ID         uuid.UUID          `json:"id"`
+	FirstName  string             `json:"first_name"`
+	LastName   pgtype.Text        `json:"last_name"`
+	FullName   pgtype.Text        `json:"full_name"`
+	Email      string             `json:"email"`
+	JobTitle   pgtype.Text        `json:"job_title"`
+	IsDeleted  pgtype.Bool        `json:"is_deleted"`
+	CreateDate pgtype.Timestamptz `json:"create_date"`
+	UpdateDate pgtype.Timestamptz `json:"update_date"`
+}
+
+func (q *Queries) UserByIdDb(ctx context.Context, id uuid.UUID) (UserByIdDbRow, error) {
 	row := q.db.QueryRow(ctx, userByIdDb, id)
-	var i User
+	var i UserByIdDbRow
 	err := row.Scan(
 		&i.ID,
 		&i.FirstName,
 		&i.LastName,
 		&i.FullName,
 		&i.Email,
-		&i.Password,
 		&i.JobTitle,
 		&i.IsDeleted,
 		&i.CreateDate,

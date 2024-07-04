@@ -12,6 +12,20 @@ definitions:
       message:
         type: string
     type: object
+  entities.Token:
+    properties:
+      id:
+        type: integer
+      token:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entities.TokenSwagger:
+    properties:
+      token:
+        type: string
+    type: object
   entities.User:
     properties:
       create_date:
@@ -222,6 +236,37 @@ paths:
         tokens
       tags:
       - Users
+  /refresh:
+    post:
+      consumes:
+      - application/json
+      description: Check refresh token, if ok return access and refresh tokens and
+        update refresh token
+      parameters:
+      - description: '{refresh_token: ...}'
+        in: body
+        name: refresh_token
+        required: true
+        schema:
+          $ref: '#/definitions/service.Tokens'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/service.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Check refresh token
+      tags:
+      - Tokens
   /registration:
     post:
       consumes:
@@ -253,6 +298,80 @@ paths:
       summary: Create user
       tags:
       - Users
+  /token/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete token by id
+      parameters:
+      - description: 'id: 2'
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ServerOk'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Delete token by id
+      tags:
+      - Tokens
+    get:
+      consumes:
+      - application/json
+      description: Get exist token
+      parameters:
+      - description: user_id:uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.TokenSwagger'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      security:
+      - JWT: []
+      summary: Get exist token
+      tags:
+      - Tokens
+  /tokens:
+    get:
+      consumes:
+      - application/json
+      description: Get all exists tokens
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Token'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: Get all exists tokens
+      tags:
+      - Tokens
   /user:
     delete:
       consumes:
