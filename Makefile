@@ -63,7 +63,7 @@ down: ## Run docker compose down
 	docker compose -f docker-compose.local.yml down
 
 .PHONY: dev
-dev: tidy ## Run go run
+dev: tidy swager ## Run go run
 	go run ./cmd/
 
 .PHONY: goose-up
