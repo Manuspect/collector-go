@@ -1,5 +1,42 @@
 basePath: /api_v1/
 definitions:
+  entities.Info:
+    properties:
+      bucket:
+        type: string
+      checksum_CRC32:
+        type: string
+      checksum_CRC32C:
+        type: string
+      checksum_SHA1:
+        type: string
+      checksum_SHA256:
+        type: string
+      e_tag:
+        type: string
+      expiration:
+        type: string
+      expiration_rule_id:
+        type: string
+      key:
+        type: string
+      last_modified:
+        type: string
+      location:
+        type: string
+      size:
+        type: integer
+      version_id:
+        type: string
+    type: object
+  entities.InfoFile:
+    properties:
+      error:
+        type: boolean
+      info:
+        $ref: '#/definitions/entities.Info'
+      msg: {}
+    type: object
   entities.ServerError:
     properties:
       code:
@@ -126,6 +163,36 @@ info:
   title: Collector
   version: Version 1.0
 paths:
+  /api/v1/upload:
+    post:
+      consumes:
+      - application/json
+      description: UploadFile retrieves the value of the environment variable named
+        by the key and return fileUpload
+      parameters:
+      - description: path to upload formData file
+        in: formData
+        name: fileUpload
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.InfoFile'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: UploadFile return file with bucket name
+      tags:
+      - Upload
   /change_password:
     patch:
       consumes:

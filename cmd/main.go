@@ -102,6 +102,7 @@ func main() {
 	v1.Patch("/user/change_pass", service.ChangePasswordByLink(queries, client))
 
 	v1.Post("/refresh", service.CheckRefresh(queries))
+	v1.Post("/api/v1/upload", controllers.UploadFile(minio_client, jetStream))
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte(os.Getenv("JWT_KEY_ACCESS"))},
@@ -115,8 +116,6 @@ func main() {
 	v1.Get("/tokens", service.GetTokens(queries))
 	v1.Get("/token/:id?", service.GetTokenByUserId(queries))
 	v1.Delete("/token/:id?", service.DeleteTokenById(queries))
-
-	app.Post("/api/v1/upload", controllers.UploadFile(minio_client, jetStream))
 
 	app.Get("/metrics", monitor.New())
 

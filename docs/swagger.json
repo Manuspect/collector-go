@@ -8,6 +8,50 @@
     },
     "basePath": "/api_v1/",
     "paths": {
+        "/api/v1/upload": {
+            "post": {
+                "description": "UploadFile retrieves the value of the environment variable named by the key and return fileUpload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "UploadFile return file with bucket name",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "path to upload formData file",
+                        "name": "fileUpload",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.InfoFile"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ServerError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ServerError"
+                        }
+                    }
+                }
+            }
+        },
         "/change_password": {
             "patch": {
                 "security": [
@@ -667,6 +711,62 @@
         }
     },
     "definitions": {
+        "entities.Info": {
+            "type": "object",
+            "properties": {
+                "bucket": {
+                    "type": "string"
+                },
+                "checksum_CRC32": {
+                    "type": "string"
+                },
+                "checksum_CRC32C": {
+                    "type": "string"
+                },
+                "checksum_SHA1": {
+                    "type": "string"
+                },
+                "checksum_SHA256": {
+                    "type": "string"
+                },
+                "e_tag": {
+                    "type": "string"
+                },
+                "expiration": {
+                    "type": "string"
+                },
+                "expiration_rule_id": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "last_modified": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "version_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.InfoFile": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "boolean"
+                },
+                "info": {
+                    "$ref": "#/definitions/entities.Info"
+                },
+                "msg": {}
+            }
+        },
         "entities.ServerError": {
             "type": "object",
             "properties": {
