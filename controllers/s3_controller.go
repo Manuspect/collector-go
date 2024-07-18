@@ -110,7 +110,7 @@ func UploadFile(m *minio.Client, js jetstream.JetStream) func(c *fiber.Ctx) erro
 			c.Context(),
 			"BATCH.MAIN",
 			[]byte(fmt.Sprintf(
-				"{objectName: %s, bucketName: %s}",
+				"{\"objectName\": \"%s\", \"bucketName\": \"%s\"}",
 				objectName,
 				bucketName)),
 		)
