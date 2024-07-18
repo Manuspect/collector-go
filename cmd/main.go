@@ -35,7 +35,7 @@ var BuildDate = time.Now().Format(DateTime)
 //	@Version		Version 1.0
 //	@Description	API server for Collector Application
 
-//	@BasePath	/api_v1/
+//	@BasePath	/api/v1/
 
 //	@securityDefinitions.ApiKey	JWT
 //	@in							header
@@ -91,7 +91,11 @@ func main() {
 	app.Use(logger.New())
 	app.Use(helmet.New())
 
-	v1 := app.Group("/api_v1")
+	app.Get("/metrics", monitor.New())
+
+	v1 := app.Group("/api/v1")
+
+	v1.Post("/upload", controllers.UploadFile(minio_client, jetStream))
 
 	v1.Post("/registration", service.CreateUser(queries))
 	v1.Post("/login", service.CheckLogin(queries))
@@ -102,7 +106,6 @@ func main() {
 	v1.Patch("/user/change_pass", service.ChangePasswordByLink(queries, client))
 
 	v1.Post("/refresh", service.CheckRefresh(queries))
-	v1.Post("/api/v1/upload", controllers.UploadFile(minio_client, jetStream))
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte(os.Getenv("JWT_KEY_ACCESS"))},
@@ -117,9 +120,7 @@ func main() {
 	v1.Get("/token/:id?", service.GetTokenByUserId(queries))
 	v1.Delete("/token/:id?", service.DeleteTokenById(queries))
 
-	app.Get("/metrics", monitor.New())
-
-	if app.Listen(fmt.Sprintf("%s:%s", os.Getenv("APP_HOST"), os.Getenv("APP_PORT"))); err != nil {
+	if app.Listen(fmt.Sprintf(":%s", os.Getenv("APP_PORT"))); err != nil {
 		log.Fatal("Server Dead, read err: ", err)
 	}
 }

@@ -1,4 +1,4 @@
-basePath: /api_v1/
+basePath: /api/v1/
 definitions:
   entities.Info:
     properties:
@@ -163,36 +163,6 @@ info:
   title: Collector
   version: Version 1.0
 paths:
-  /api/v1/upload:
-    post:
-      consumes:
-      - application/json
-      description: UploadFile retrieves the value of the environment variable named
-        by the key and return fileUpload
-      parameters:
-      - description: path to upload formData file
-        in: formData
-        name: fileUpload
-        required: true
-        type: file
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.InfoFile'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/entities.ServerError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/entities.ServerError'
-      summary: UploadFile return file with bucket name
-      tags:
-      - Upload
   /change_password:
     patch:
       consumes:
@@ -439,6 +409,51 @@ paths:
       summary: Get all exists tokens
       tags:
       - Tokens
+  /upload:
+    post:
+      consumes:
+      - application/json
+      description: UploadFile retrieves the value of the environment variable named
+        by the key and return fileUpload
+      parameters:
+      - description: path to upload formData file
+        in: formData
+        name: fileUpload
+        required: true
+        type: file
+      - description: id of user
+        in: formData
+        name: userId
+        required: true
+        type: string
+      - description: id of record
+        in: formData
+        name: recordId
+        required: true
+        type: string
+      - description: timestamp of batch
+        in: formData
+        name: timestamp
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.InfoFile'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ServerError'
+      summary: UploadFile return file with bucket name
+      tags:
+      - Upload
   /user:
     delete:
       consumes:

@@ -30,18 +30,18 @@ services:
       retries: 5
       start_period: 10s
 
-  pgadmin:
-    image: dpage/pgadmin4:8
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: pg@admin.org
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-      PGADMIN_LISTEN_PORT: 9656
-    ports:
-      - "9656:9656"
-    volumes:
-      - ./_data/pgadmin:/var/lib/pgadmin
+  # pgadmin:
+  #   image: dpage/pgadmin4:8
+  #   restart: unless-stopped
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: pg@admin.org
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #     PGADMIN_CONFIG_SERVER_MODE: 'False'
+  #     PGADMIN_LISTEN_PORT: 9656
+  #   ports:
+  #     - "9656:9656"
+  #   volumes:
+  #     - ./_data/pgadmin:/var/lib/pgadmin
 
   minio:
     image: minio/minio:latest
@@ -70,3 +70,9 @@ services:
       retries: 3
     volumes:
       - ./_data/minio:/data
+
+  redis:
+    image: redis:6
+    restart: unless-stopped
+    expose:
+      - "${REDIS_PORT}"

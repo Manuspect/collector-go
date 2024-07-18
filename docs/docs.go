@@ -15,50 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/upload": {
-            "post": {
-                "description": "UploadFile retrieves the value of the environment variable named by the key and return fileUpload",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Upload"
-                ],
-                "summary": "UploadFile return file with bucket name",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "path to upload formData file",
-                        "name": "fileUpload",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.InfoFile"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/entities.ServerError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/entities.ServerError"
-                        }
-                    }
-                }
-            }
-        },
         "/change_password": {
             "patch": {
                 "security": [
@@ -420,6 +376,71 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/entities.Token"
                             }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ServerError"
+                        }
+                    }
+                }
+            }
+        },
+        "/upload": {
+            "post": {
+                "description": "UploadFile retrieves the value of the environment variable named by the key and return fileUpload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "UploadFile return file with bucket name",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "path to upload formData file",
+                        "name": "fileUpload",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of user",
+                        "name": "userId",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of record",
+                        "name": "recordId",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "timestamp of batch",
+                        "name": "timestamp",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.InfoFile"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ServerError"
                         }
                     },
                     "500": {
@@ -975,7 +996,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "Version 1.0",
 	Host:             "",
-	BasePath:         "/api_v1/",
+	BasePath:         "/api/v1/",
 	Schemes:          []string{},
 	Title:            "Collector",
 	Description:      "API server for Collector Application",
