@@ -1,0 +1,18 @@
+networks:
+  app-network:
+    name: workspace_default
+    external: true
+
+services:
+  collector-go:
+    env_file:
+      - ../.env
+    image: debian:12-slim
+    restart: no
+    command: >
+      sh -c "collector_go"
+    volumes:
+      - ./collector_go:/usr/bin/collector_go
+      - ./docs/:/docs
+    networks:
+      - app-network

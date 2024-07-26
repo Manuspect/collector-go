@@ -1,4 +1,3 @@
-version: '3.5'
 
 networks:
   app-network:
@@ -92,3 +91,4 @@ services:
   #     retries: 3
   #   volumes:
   #     - ./_data/minio:/data
+
