@@ -15,7 +15,7 @@ endif
 GO111MODULE := on
 CGO_ENABLED ?= 0
 GOOS ?= linux
-TARGET := collectorgo
+TARGET := collector_go
 COMMIT_TAG := $(shell git describe --tags)
 COMMIT_SHORT_SHA := $(shell git rev-parse --short HEAD)
 BUILD_VERSION:=$(COMMIT_SHORT_SHA)
