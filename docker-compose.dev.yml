@@ -1,6 +1,6 @@
 networks:
   app-network:
-    name: workspace_default
+    name: manuspect-net
     external: true
 
 services:
@@ -12,7 +12,7 @@ services:
     command: >
       sh -c "collector_go"
     volumes:
-      - ./collector_go:/usr/bin/collector_go
+      - ./bin/collector_go:/usr/bin/collector_go
       - ./docs/:/docs
     networks:
       - app-network
